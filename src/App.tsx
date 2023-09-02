@@ -1,5 +1,5 @@
 
-import React, {  useEffect, useState } from "react"
+import React, {   useEffect, useState } from "react"
 import "./App.css"
 
 import Header from "./components/Header"
@@ -8,6 +8,7 @@ import Footer from "./components/Footer"
 import axios from "axios"
 import { IUserApi } from "./models/user.model"
 import useFetch from "./custom-hooks/useFetch";
+import UseRefTemplate from "./components/UseRefTemplate"
 
 const App = () => {
   // const number = 2;
@@ -35,20 +36,20 @@ const App = () => {
     let interval=0;
     if(id>0 && id<=200){
 
-      axios.get<IUserApi>( `https://jsonplaceholder.typicode.com/todos/${id}` )
+      axios.get( `https://jsonplaceholder.typicode.com/todos/${id}` )
            .then( (res) => {
             setUser(res);
-            console.log(user.data.title)
+            console.log(user['data'].title)
            } )
   
-      interval = setInterval( ()=> {
-        console.log('Interval....');
-      } ,1000 )
+      // interval = setInterval( ()=> {
+      //   console.log('Interval....');
+      // } ,1000 )
     }
   
     return () => { //!destroy - se usa para limpiar y evitar pérdidas de meoria
-      console.log('Clean Interval')
-      clearInterval(interval); 
+      //console.log('Clean Interval')
+      //clearInterval(interval); 
     }
   }, [ id,user.data.title ]) //!actualizacion
   
@@ -65,6 +66,13 @@ const App = () => {
 
       <input type="text" onInput={ (ev:React.ChangeEvent<HTMLInputElement>)=> changeId(ev) } />
       
+      <hr /><hr /><hr />
+
+      <h2>Use Ref</h2>
+
+      <UseRefTemplate />
+
+      <hr /><hr /><hr />
 
       <Content number={number} setNumber={setNumber} />
       <Footer number={number} copy="@myapp" year="2023" />
